@@ -2,10 +2,11 @@ import { useState } from 'react';
 import './App.css';
 import { Todo } from './models/todo';
 import TodoItem from './TodoItem';
+import useLocalStorage from './hooks/useLocalStorage';
 
 function App() {
   const [newTodoName, setNewTodoName] = useState('');
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useLocalStorage<Todo[]>('MY_TODOS', []);
 
   function addTodo() {
     if (!newTodoName) return;
