@@ -1,4 +1,4 @@
-import { TodoItemProps } from './models/todo-item';
+import { TodoItemProps } from './models/todo-item-props';
 
 export default function TodoItem({
   todo,

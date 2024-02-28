@@ -1,40 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import './App.css';
 import { Todo } from './models/todo';
 import TodoItem from './TodoItem';
 import useLocalStorage from './hooks/useLocalStorage';
+import { TodoActionType } from './models/todo-action-type';
+import { todosReducer } from './reducers/todos-reducer';
+import { NewTodoForm } from './NewTodoForm';
 
 function App() {
-  const [newTodoName, setNewTodoName] = useState('');
-  const [todos, setTodos] = useLocalStorage<Todo[]>('MY_TODOS', []);
+  const [savedTodos, setSavedTodos] = useLocalStorage<Todo[]>('MY_TODOS', []);
+  const [todos, dispatch] = useReducer(todosReducer, savedTodos);
 
-  function addTodo() {
-    if (!newTodoName) return;
+  useEffect(() => {
+    setSavedTodos(todos);
+  }, [todos]);
 
-    setTodos((currentTodos) => {
-      return [
-        ...currentTodos,
-        { name: newTodoName, completed: false, id: crypto.randomUUID() },
-      ];
-    });
-    setNewTodoName('');
+  function addTodo(newTodoName: string) {
+    dispatch({ type: TodoActionType.ADD_TODO, payload: newTodoName });
   }
 
   function toggleTodo(todoId: string) {
-    setTodos((currentTodos) =>
-      currentTodos.map((todo) => {
-        if (todo.id === todoId) {
-          return { ...todo, completed: !todo.completed };
-        }
-        return todo;
-      })
-    );
+    dispatch({ type: TodoActionType.TOGGLE_TODO, payload: todoId });
   }
 
   function removeTodo(todoId: string) {
-    setTodos((currentTodos) =>
-      currentTodos.filter((todo) => todo.id !== todoId)
-    );
+    dispatch({ type: TodoActionType.REMOVE_TODO, payload: todoId });
   }
 
   return (
@@ -48,15 +38,7 @@ function App() {
           removeTodo={removeTodo}
         />
       ))}
-      <div id="new-todo-form">
-        <label htmlFor="new-todo-name">New Todo</label>
-        <input
-          type="text"
-          value={newTodoName}
-          onChange={(e) => setNewTodoName(e.target.value)}
-        />
-        <button onClick={addTodo}>Add</button>
-      </div>
+      <NewTodoForm addTodo={addTodo} />
     </>
   );
 }
