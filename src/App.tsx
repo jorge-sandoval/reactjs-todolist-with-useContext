@@ -4,6 +4,7 @@ import useLocalStorage from './hooks/useLocalStorage';
 import NewTodoForm from './NewTodoForm';
 import TodoList from './TodoList';
 import TodosContextProvider from './contexts/todos-context-provider';
+import TodoFilterForm from './TodoFilterForm';
 
 function App() {
   const [savedTodos] = useLocalStorage<Todo[]>('MY_TODOS', []);
@@ -11,7 +12,7 @@ function App() {
   return (
     <TodosContextProvider todos={savedTodos}>
       <div className="App">
-        <h1>Todo List</h1>
+        <TodoFilterForm></TodoFilterForm>
         <TodoList />
         <NewTodoForm />
       </div>

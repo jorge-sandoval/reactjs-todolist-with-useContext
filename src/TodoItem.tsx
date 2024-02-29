@@ -6,16 +6,19 @@ export default function TodoItem({
   removeTodo,
 }: TodoItemProps) {
   return (
-    <li>
-      <label htmlFor={todo.id}>
+    <li className="list-item">
+      <label className="list-item-label" htmlFor={todo.id}>
         <input
           type="checkbox"
           checked={todo.completed}
           onChange={() => toggleTodo(todo.id)}
+          data-list-item-checkbox
         />
-        <span>{todo.name}</span>
+        <span data-list-item-text>{todo.name}</span>
       </label>
-      <button onClick={() => removeTodo(todo.id)}>Remove</button>
+      <button onClick={() => removeTodo(todo.id)} data-button-delete>
+        Remove
+      </button>
     </li>
   );
 }

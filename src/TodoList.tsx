@@ -6,7 +6,7 @@ export default function TodoList() {
   const { todos, toggleTodo, removeTodo } = useContext(TodoContext);
 
   return (
-    <>
+    <ul id="list">
       {todos.map((todo) => (
         <TodoItem
           key={todo.id}
@@ -15,6 +15,6 @@ export default function TodoList() {
           removeTodo={removeTodo}
         />
       ))}
-    </>
+    </ul>
   );
 }
