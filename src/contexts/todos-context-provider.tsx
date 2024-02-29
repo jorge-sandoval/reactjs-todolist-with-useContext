@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from 'react';
 import todosReducer from '../reducers/todos-reducer';
-import TodosActionType from '../models/todos-action-type';
+import { TodosActionType } from '../models/todos-action';
 import TodosContextProviderProps from '../models/todos-context-provider-props';
 import TodoContext from './todos-context';
 import Todo from '../models/todo';
@@ -18,7 +18,7 @@ export default function TodosContextProvider({
     hideCompleted: false,
   });
 
-  const filteredTodos = todos.filter((todo) => {
+  const filteredTodos = todos.filter((todo: Todo) => {
     const nameMatch =
       !filter.name ||
       todo.name.toLowerCase().includes(filter.name.toLowerCase());
@@ -27,15 +27,33 @@ export default function TodosContextProvider({
   });
 
   const addTodo = (newTodoName: string) => {
-    dispatch({ type: TodosActionType.ADD_TODO, payload: newTodoName });
+    dispatch({
+      type: TodosActionType.ADD_TODO,
+      payload: { todoName: newTodoName },
+    });
   };
 
   const toggleTodo = (todoId: string) => {
-    dispatch({ type: TodosActionType.TOGGLE_TODO, payload: todoId });
+    dispatch({
+      type: TodosActionType.TOGGLE_TODO,
+      payload: { todoId },
+    });
   };
 
   const removeTodo = (todoId: string) => {
-    dispatch({ type: TodosActionType.REMOVE_TODO, payload: todoId });
+    dispatch({
+      type: TodosActionType.REMOVE_TODO,
+      payload: { todoId },
+    });
+  };
+  const updateTodo = (todoId: string, todoName: string) => {
+    dispatch({
+      type: TodosActionType.UPDATE_TODO,
+      payload: {
+        todoId,
+        todoName,
+      },
+    });
   };
 
   useEffect(() => {
@@ -49,6 +67,7 @@ export default function TodosContextProvider({
         addTodo,
         toggleTodo,
         removeTodo,
+        updateTodo,
         setFilter,
       }}
     >

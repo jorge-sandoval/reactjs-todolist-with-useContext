@@ -3,7 +3,7 @@ import TodoContext from './contexts/todos-context';
 import TodoItem from './TodoItem';
 
 export default function TodoList() {
-  const { todos, toggleTodo, removeTodo } = useContext(TodoContext);
+  const { todos, toggleTodo, removeTodo, updateTodo } = useContext(TodoContext);
 
   return (
     <ul id="list">
@@ -13,6 +13,7 @@ export default function TodoList() {
           todo={todo}
           toggleTodo={toggleTodo}
           removeTodo={removeTodo}
+          updateTodo={updateTodo}
         />
       ))}
     </ul>

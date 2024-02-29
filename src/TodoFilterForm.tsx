@@ -4,6 +4,7 @@ import TodosFilter from './models/todos-filter';
 
 export default function TodoFilterForm() {
   const { setFilter } = useContext(TodoContext);
+
   return (
     <div className="filter-form">
       <div className="filter-form-group">
