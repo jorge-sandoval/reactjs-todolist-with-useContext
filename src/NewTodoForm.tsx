@@ -1,8 +1,9 @@
-import { FormEvent, useRef } from 'react';
-import { NewTodoFormProps } from './models/new-todo-form-props';
+import { FormEvent, useContext, useRef } from 'react';
+import TodoContext from './contexts/todos-context';
 
-export function NewTodoForm({ addTodo }: NewTodoFormProps) {
+export default function NewTodoForm() {
   const nameRef = useRef<HTMLInputElement>(null);
+  const { addTodo } = useContext(TodoContext);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

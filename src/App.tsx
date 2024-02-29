@@ -1,45 +1,21 @@
-import { useEffect, useReducer } from 'react';
 import './App.css';
-import { Todo } from './models/todo';
-import TodoItem from './TodoItem';
+import Todo from './models/todo';
 import useLocalStorage from './hooks/useLocalStorage';
-import { TodoActionType } from './models/todo-action-type';
-import { todosReducer } from './reducers/todos-reducer';
-import { NewTodoForm } from './NewTodoForm';
+import NewTodoForm from './NewTodoForm';
+import TodoList from './TodoList';
+import TodosContextProvider from './contexts/todos-context-provider';
 
 function App() {
-  const [savedTodos, setSavedTodos] = useLocalStorage<Todo[]>('MY_TODOS', []);
-  const [todos, dispatch] = useReducer(todosReducer, savedTodos);
-
-  useEffect(() => {
-    setSavedTodos(todos);
-  }, [todos]);
-
-  function addTodo(newTodoName: string) {
-    dispatch({ type: TodoActionType.ADD_TODO, payload: newTodoName });
-  }
-
-  function toggleTodo(todoId: string) {
-    dispatch({ type: TodoActionType.TOGGLE_TODO, payload: todoId });
-  }
-
-  function removeTodo(todoId: string) {
-    dispatch({ type: TodoActionType.REMOVE_TODO, payload: todoId });
-  }
+  const [savedTodos] = useLocalStorage<Todo[]>('MY_TODOS', []);
 
   return (
-    <>
-      <h1>Todo List</h1>
-      {todos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          toggleTodo={toggleTodo}
-          removeTodo={removeTodo}
-        />
-      ))}
-      <NewTodoForm addTodo={addTodo} />
-    </>
+    <TodosContextProvider todos={savedTodos}>
+      <div className="App">
+        <h1>Todo List</h1>
+        <TodoList />
+        <NewTodoForm />
+      </div>
+    </TodosContextProvider>
   );
 }
 

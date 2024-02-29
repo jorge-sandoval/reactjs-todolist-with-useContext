@@ -1,24 +1,24 @@
-import { Todo } from "../models/todo";
-import { TodoActionType } from "../models/todo-action-type";
+import Todo from "../models/todo";
+import TodosActionType from "../models/todos-action-type";
 
-export function todosReducer(
+export default function todosReducer(
   state: Todo[],
-  action: { type: TodoActionType; payload: string }
+  action: { type: TodosActionType; payload: string }
 ) {
   switch (action.type) {
-    case TodoActionType.ADD_TODO:
+    case TodosActionType.ADD_TODO:
       return [
         ...state,
         { name: action.payload, completed: false, id: crypto.randomUUID() },
       ];
-    case TodoActionType.TOGGLE_TODO:
+    case TodosActionType.TOGGLE_TODO:
       return state.map((todo) => {
         if (todo.id === action.payload) {
           return { ...todo, completed: !todo.completed };
         }
         return todo;
       });
-    case TodoActionType.REMOVE_TODO:
+    case TodosActionType.REMOVE_TODO:
       return state.filter((todo) => todo.id !== action.payload);
     default:
       return state;
